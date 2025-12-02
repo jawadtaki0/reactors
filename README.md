@@ -1,88 +1,248 @@
-# Reactors 
+# Reactors — Book Management Web App
 
-A simple web app to track and manage books. Built with React + Vite + Tailwind.
+A modern and intuitive platform for browsing, tracking, and managing books.  
+Built with **React + Vite + TailwindCSS**, emphasizing speed, simplicity, and smooth UI/UX.
 
-## Team
-- Ali Khalifeh : Homepage - Add & Edit
-- Jawad Taki : Login - register
-- Hussein Sabra : Book Listing - Book details
-- Ali Daouk : Profile - Reading List
+---
 
-## Live Link 
+---
 
+# Team Members
 
-## Primary Data entities 
-- Book
-- User
-## Features
-- Browse and explore books
-- Add and edit book entries
-- Build and manage your reading list
-- User login and profile management
-- Local/session storage support
+| Name | Responsibilities |
+|------|------------------|
+| **Ali Khalifeh** | Homepage, Add Book, Edit Book, Dark Mode |
+| **Jawad Taki** | Login, Register |
+| **Hussein Sabra** | Book Listing, Book Details |
+| **Ali Daouk** | Profile Page, Reading List |
 
-## Tech Stack
+---
+
+# Overview
+
+Reactors is a responsive book management web app where users can:
+
+- Browse a curated collection of books  
+- View detailed information about each book  
+- Add or edit books via a clean interface  
+- Maintain a personal reading list  
+- Track reading progress  
+- Manage profile details  
+- Log in or register
+
+This version uses **local mock data** and **React Context** to simulate backend behavior.
+
+---
+
+# Primary Data Entities
+
+### **Book**
+Represents each book with attributes like:
+- title  
+- author  
+- year  
+- genre  
+- description  
+- cover image  
+- id  
+
+Stored in:
+```
+src/data/books.js
+```
+
+### **User**
+Represents user information for login and profile pages.
+
+### **Reading List Entry**
+Simulates user's reading progress and book tracking.
+
+---
+
+# Features
+
+### Book Browsing
+- View all books with covers, titles, and genres.
+
+### Book Details Page
+- Full description  
+- Metadata  
+- Buttons to edit or add to reading list  
+
+### Add Books
+- Simple form with validation  
+- Auto-updates the mock database  
+
+### Edit Books
+- Modify any book's details  
+- Reflects updates immediately  
+
+### Reading List (Wishlist / Reading / Finished)
+- Track reading progress  
+- Quick visual overview  
+
+### Profile Page
+- User info  
+- Reading statistics  
+
+### Login & Register (Mock)
+- Client-side form validation  
+- Simulated authentication flow  
+
+### Modern Home Page
+- Hero section  
+- Carousel  
+- Featured books  
+
+### UI / UX
+- Tailwind for styling  
+- Framer Motion for animations  
+- Fully responsive  
+
+---
+
+# Tech Stack
+
 - **React 18**
 - **Vite**
+- **TailwindCSS**
 - **React Router DOM**
-- **Tailwind CSS**
+- **Framer Motion**
+- **Local/Session Storage**
+- **Context API**
 
-## Setup
-1. Clone the repository  
-  
-   git clone https://github.com/alikhalifehh/Reactors.git
+---
 
-2. Go Inside the Project Folder
+# Project Structure
 
-    cd Reactors
+```
+src/
+ ├── assets/            # Images and static files
+ ├── components/        # UI components
+ ├── context/           # BookContext (mock backend simulation)
+ ├── data/              # Mock data (books.js)
+ ├── pages/             # Application pages
+ ├── App.jsx            # App root + routing
+ └── main.jsx           # Vite entry point
+```
 
-3. Install Dependencies
+---
 
-    npm install
+# Mock Data Architecture
 
-4. Start the Development Server
+### `src/data/books.js`
+Acts as a **local database**.
 
-    npm run dev
+Example:
+```js
+{
+  id: 1,
+  title: "Atomic Habits",
+  author: "James Clear",
+  year: 2018,
+  genre: "Self-help",
+  description: "...",
+  cover: "/covers/atomic.jpg"
+}
+```
 
-## How mock data is used 
-   
-    All book information is stored locally in the file  
-    `src/data/books.js`.
+### `src/context/BookContext.jsx`
+Simulates backend API:
 
-    Each book is an object with properties such as **title**, **author**, **year**, **genre**, **description**, and **cover image**.  
-    This file acts like a small local database and lets the app work without connecting to a real backend.
+- `getBooks()`
+- `getBookById()`
+- `addBook()`
+- `updateBook()`
+- `deleteBook()`
 
-    The app also uses **BookContext** (`src/context/BookContext.jsx`) to simulate backend actions.  
-    Functions like `addBook`, `updateBook`, and `deleteBook` act the same way as API requests would — they update the local state instead of sending data to a server.
+This makes the entire app behave like a real full-stack project without needing an API.
 
-    This setup allows the app to feel fully functional even though it’s running only on mock data.
+---
 
-## Key Features 
+# Setup Instructions
+
+### 1️. Clone the Repository  
+```
+git clone https://github.com/alikhalifehh/Reactors.git
+```
+
+### 2️. Navigate to the Project  
+```
+cd Reactors
+```
+
+### 3️. Install Dependencies  
+```
+npm install
+```
+
+### 4️. Run the Development Server  
+```
+npm run dev
+```
+
+App runs at:
+```
+http://localhost:5173
+```
+
+---
+
+# Screenshots
+
+### Home Page  
+![Home Page](src/assets/home.png)
+
+### Login Page  
+![Login](src/assets/login.png)
+
+### Register Page  
+![Register](src/assets/register.png)
+
+### Books Listing  
+![Books Listing](src/assets/books.png)
+
+### Book Details  
+![Book Details](src/assets/book-details.png)
+
+### Add Book  
+![Add Book](src/assets/add-book.png)
+
+### Reading List  
+![Reading List](src/assets/reading-list.png)
+
+### Profile Page  
+![Profile](src/assets/profile.png)
+
+### Dark Mode
+![Dark Mode](src/assets/dark-mode.png)
+
+![Dark Mode](src/assets/k.jpg)
 
 
-- **View and Explore Books**  
-  Users can browse a list of books with details like title, author, genre, and cover.
+---
 
-- **Book Details Page**  
-  Each book has its own page showing a full description and related information.
+# Phase 2 — Full Stack Integration (Frontend + Backend)
 
-- **Add & Edit Books**  
-  Users can add new books or update existing ones easily through a simple form.
+The frontend was connected to a real backend API.
 
-- **Reading List Management**  
-  Users can keep track of what they’re reading, what they’ve completed, and what they plan to read.
+Authentication now uses backend endpoints.
 
-- **User Profile**  
-  Displays user information and reading progress.
+Books and reading list entries are stored in MongoDB.
 
-- **Login & Register**  
-  Simple authentication flow for users (mocked locally for demo purposes).
+All CRUD operations communicate with the backend through real API endpoints.
 
-- **Home Page Carousel**  
-  The homepage includes a rotating background and featured books section.
+The app now behaves like a full production-ready system. 
 
-- **Mock Data Simulation**  
-  The app runs entirely on mock data (no backend required), simulating real app interactions.
+---
 
-- **Modern UI & Smooth Animations**  
-  Built with React, TailwindCSS, and Framer Motion for a smooth, user-friendly experience.
+# Conclusion
+
+Reactors demonstrates:
+
+- Clean React architecture  
+- Component-based design  
+- Smooth UI/UX  
+- Team collaboration  
+- Simulated full-stack behavior (Phase1)
+- Connected to Backend (Phase 2)
