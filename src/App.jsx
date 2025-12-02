@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+
 import HomePage from "./pages/HomePage";
 import BooksList from "./pages/BooksList";
 import BookDetail from "./pages/BookDetail";
@@ -7,7 +8,9 @@ import ReadingList from "./pages/ReadingList";
 import UserProfile from "./pages/UserProfile";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+
 import ProtectedRoute from "./components/ProtectedRoute";
+import CookieFixPopup from "./components/CookieFixPopup";
 
 import { AuthProvider } from "./context/AuthContext";
 import { ThemeProvider } from "./context/ThemeContext";
@@ -18,7 +21,11 @@ export default function App() {
     <BrowserRouter>
       <ThemeProvider>
         <AuthProvider>
+          {/* MFA Modal */}
           <OtpModal />
+
+          {/* COOKIE POPUP */}
+          <CookieFixPopup />
 
           <div className="min-h-screen bg-white dark:bg-zinc-950 transition-colors duration-300">
             <Routes>
