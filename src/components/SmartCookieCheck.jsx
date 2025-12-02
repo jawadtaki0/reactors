@@ -5,19 +5,28 @@ export default function SmartCookieCheck({ onBlocked }) {
   useEffect(() => {
     async function testCookies() {
       try {
+        // Tell backend to set cookie
         await axios.get(`${import.meta.env.VITE_API_URL}/auth/cookie-test`, {
           withCredentials: true,
         });
 
-        // Safari needs small delay
-        setTimeout(() => {
-          const hasCookie = document.cookie.includes("reactors_test_cookie");
-          if (!hasCookie) {
-            onBlocked(); // trigger popup
+        // Wait for Safari / Chrome to save cookie
+        setTimeout(async () => {
+          try {
+            const verify = await axios.get(
+              `${import.meta.env.VITE_API_URL}/auth/cookie-verify`,
+              { withCredentials: true }
+            );
+
+            if (!verify.data.cookieWorks) {
+              onBlocked();
+            }
+          } catch {
+            onBlocked();
           }
         }, 300);
-      } catch (err) {
-        onBlocked(); // also blocked
+      } catch {
+        onBlocked();
       }
     }
 
