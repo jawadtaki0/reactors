@@ -25,6 +25,7 @@ export default function App() {
       <ThemeProvider>
         <AuthProvider onCookieBlocked={() => setCookieError(true)}>
           <OtpModal />
+          <SmartCookieCheck />
 
           <CookieFixPopup
             show={cookieError}
