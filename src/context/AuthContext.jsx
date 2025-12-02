@@ -8,21 +8,12 @@ export const AuthProvider = ({ children, onCookieBlocked }) => {
   const [loading, setLoading] = useState(true);
   const [mfaData, setMfaData] = useState(null);
 
-  // fetch user on load
+  // fetch on load
   const fetchUser = async () => {
     try {
       const res = await authApi.getMe();
       setUser(res.data.user);
     } catch (err) {
-      const isCookieError =
-        err.response?.status === 401 ||
-        err.message?.includes("cookie") ||
-        err.message?.includes("blocked");
-
-      if (isCookieError && typeof onCookieBlocked === "function") {
-        onCookieBlocked();
-      }
-
       setUser(null);
     } finally {
       setLoading(false);
@@ -33,10 +24,75 @@ export const AuthProvider = ({ children, onCookieBlocked }) => {
     fetchUser();
   }, []);
 
+  // google login
   const loginWithGoogle = () => {
     window.location.href = authApi.getGoogleUrl();
   };
 
+  // email/pass login
+  const login = async (data) => {
+    try {
+      const res = await authApi.login(data);
+
+      // MFA
+      if (res.data.mfa) {
+        setMfaData({
+          userId: res.data.userId,
+          email: res.data.email,
+          mode: "verify-login",
+        });
+        return { mfa: true };
+      }
+
+      // Success
+      setUser(res.data.user);
+      return { success: true };
+    } catch (err) {
+      const rawMsg = err.response?.data?.message?.toLowerCase() || "";
+
+      const cookieBlocked =
+        rawMsg.includes("cookie") ||
+        rawMsg.includes("blocked") ||
+        rawMsg.includes("session") ||
+        (err.response?.status === 401 && !err.response?.data?.user);
+
+      if (cookieBlocked && typeof onCookieBlocked === "function") {
+        onCookieBlocked(); // popup appears only now
+      }
+
+      return {
+        success: false,
+        message: err.response?.data?.message || "Login failed",
+      };
+    }
+  };
+
+  // veify otp
+  const verifyOtp = async ({ userId, otp }) => {
+    try {
+      const res = await authApi.verifyOtp({ userId, otp });
+      setUser(res.data.user);
+      setMfaData(null);
+      return { success: true };
+    } catch (err) {
+      return {
+        success: false,
+        message: err.response?.data?.message || "Invalid code",
+      };
+    }
+  };
+
+  // resend otp
+  const resendOtp = async (userId) => {
+    try {
+      await authApi.resendOtp({ userId });
+      return { success: true };
+    } catch {
+      return { success: false };
+    }
+  };
+
+  // register
   const register = async (data) => {
     try {
       const res = await authApi.register(data);
@@ -54,52 +110,7 @@ export const AuthProvider = ({ children, onCookieBlocked }) => {
     }
   };
 
-  const login = async (data) => {
-    try {
-      const res = await authApi.login(data);
-
-      if (res.data.mfa) {
-        setMfaData({
-          userId: res.data.userId,
-          email: res.data.email,
-          mode: "verify-login",
-        });
-        return { mfa: true };
-      }
-
-      setUser(res.data.user);
-      return { success: true };
-    } catch (err) {
-      return {
-        success: false,
-        message: err.response?.data?.message || "Login failed",
-      };
-    }
-  };
-
-  const verifyOtp = async ({ userId, otp }) => {
-    try {
-      const res = await authApi.verifyOtp({ userId, otp });
-      setUser(res.data.user);
-      setMfaData(null);
-      return { success: true };
-    } catch (err) {
-      return {
-        success: false,
-        message: err.response?.data?.message || "Invalid code",
-      };
-    }
-  };
-
-  const resendOtp = async (userId) => {
-    try {
-      await authApi.resendOtp({ userId });
-      return { success: true };
-    } catch {
-      return { success: false };
-    }
-  };
-
+  // logout
   const logout = async () => {
     try {
       await authApi.logout();

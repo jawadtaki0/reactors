@@ -12,7 +12,7 @@ export default function ProtectedRoute({ children }) {
     );
   }
 
-  // Not logged in → send to login and remember where user wanted to go
+  // Not logged in -> send to login and remember where user wanted to go
   if (!user) {
     return <Navigate to="/login" replace state={{ from: location.pathname }} />;
   }
