@@ -6,20 +6,14 @@ import { useTheme } from "../context/ThemeContext";
 
 export default function Navbar() {
   const navigate = useNavigate();
-
-  // GET USER + LOADING + LOGOUT
   const { user, logout, loading } = useAuth();
+  const { theme, toggleTheme } = useTheme();
 
-  // MOBILE + DROPDOWN STATES
   const [mobileOpen, setMobileOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
   const dropdownRef = useRef(null);
 
-  // THEME
-  const { theme, toggleTheme } = useTheme();
-
-  // CLOSE DROPDOWN WHEN CLICKING OUTSIDE
   useEffect(() => {
     const handleClick = (e) => {
       if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
@@ -31,11 +25,13 @@ export default function Navbar() {
     return () => document.removeEventListener("mousedown", handleClick);
   }, []);
 
-  // LOGOUT HANDLER
   const handleLogout = async () => {
     await logout();
     window.location.href = "/";
   };
+
+  // avatar initial
+  const avatarInitial = user?.name?.[0]?.toUpperCase() ?? "U";
 
   return (
     <nav className="w-full bg-white/80 dark:bg-zinc-900/80 backdrop-blur-md shadow-md fixed top-0 left-0 z-50 transition-all">
@@ -92,12 +88,12 @@ export default function Navbar() {
           ) : (
             <div className="relative" ref={dropdownRef}>
               <button
-                onClick={() => setDropdownOpen((prev) => !prev)}
+                onClick={() => setDropdownOpen((p) => !p)}
                 className="flex items-center gap-2 px-4 py-2 bg-[#631730ff] text-white rounded-lg hover:bg-[#B4182D] transition"
               >
                 <span>{user.name}</span>
                 <span
-                  className={`transition-transform duration-300 ${
+                  className={`transition-transform ${
                     dropdownOpen ? "rotate-180" : ""
                   }`}
                 >
@@ -119,7 +115,7 @@ export default function Navbar() {
           )}
         </div>
 
-        {/* MOBILE MENU BUTTON */}
+        {/* MOBILE BURGER */}
         <button
           className="md:hidden text-[#631730ff] dark:text-white"
           onClick={() => setMobileOpen((prev) => !prev)}
@@ -130,9 +126,9 @@ export default function Navbar() {
 
       {/* MOBILE MENU */}
       {mobileOpen && !loading && (
-        <div className="md:hidden bg-white dark:bg-zinc-900 pb-4 shadow-lg border-t dark:border-zinc-700 text-[#631730ff] dark:text-white transition">
-          <div className="px-6 py-4 flex flex-col gap-4 text-lg font-medium">
-            {/* THEME BUTTON */}
+        <div className="md:hidden bg-white dark:bg-zinc-900 pb-5 shadow-lg border-t dark:border-zinc-700 text-[#631730ff] dark:text-white transition">
+          <div className="px-6 pt-4 flex flex-col gap-4 text-lg font-medium">
+            {/* THEME TOGGLE */}
             <button
               onClick={toggleTheme}
               className="self-start p-2 rounded-lg hover:bg-black/10 dark:hover:bg-white/10 transition"
@@ -144,12 +140,18 @@ export default function Navbar() {
               )}
             </button>
 
-            {/* USER NAME */}
-            {loading ? (
-              <div className="opacity-60">Loading...</div>
-            ) : user ? (
-              <div className="font-semibold text-xl">{user.name}</div>
-            ) : null}
+            {/* MOBILE USER PROFILE BLOCK */}
+            {user && (
+              <div className="flex items-center gap-3 bg-black/5 dark:bg-white/10 p-3 rounded-xl">
+                <div className="h-10 w-10 rounded-full bg-[#631730ff] text-white flex items-center justify-center font-bold">
+                  {avatarInitial}
+                </div>
+                <div className="flex flex-col leading-tight">
+                  <span className="font-semibold text-lg">{user.name}</span>
+                  <span className="text-xs opacity-70">{user.email}</span>
+                </div>
+              </div>
+            )}
 
             {/* LINKS */}
             <Link to="/books" onClick={() => setMobileOpen(false)}>
@@ -165,20 +167,21 @@ export default function Navbar() {
               Add & Edit
             </Link>
 
-            {/* AUTH (Mobile) */}
+            {/* AUTH */}
             {!user ? (
               <>
                 <Link
                   to="/login"
                   onClick={() => setMobileOpen(false)}
-                  className="mt-2 w-full text-center px-5 py-2 bg-[#631730ff] text-white rounded-lg hover:bg-[#B4182D] transition"
+                  className="mt-2 w-full text-center px-5 py-2 bg-[#631730ff] text-white rounded-lg"
                 >
                   Login
                 </Link>
+
                 <Link
                   to="/register"
                   onClick={() => setMobileOpen(false)}
-                  className="w-full text-center px-5 py-2 border border-[#631730ff] text-[#631730ff] rounded-lg hover:bg-[#63173015] transition"
+                  className="w-full text-center px-5 py-2 border border-[#631730ff] text-[#631730ff] rounded-lg"
                 >
                   Register
                 </Link>
@@ -186,7 +189,7 @@ export default function Navbar() {
             ) : (
               <button
                 onClick={handleLogout}
-                className="mt-2 w-full px-5 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition"
+                className="mt-2 w-full px-5 py-2 bg-red-600 text-white rounded-lg"
               >
                 Logout
               </button>
