@@ -15,28 +15,30 @@ import CookieFixPopup from "./components/CookieFixPopup";
 import { AuthProvider } from "./context/AuthContext";
 import { ThemeProvider } from "./context/ThemeContext";
 import OtpModal from "./components/OtpModal";
+import { useState } from "react";
 
 export default function App() {
+  const [cookieError, setCookieError] = useState(false);
+
   return (
     <BrowserRouter>
       <ThemeProvider>
-        <AuthProvider>
-          {/* MFA Modal */}
+        <AuthProvider onCookieBlocked={() => setCookieError(true)}>
           <OtpModal />
 
-          {/* COOKIE POPUP */}
-          <CookieFixPopup />
+          <CookieFixPopup
+            show={cookieError}
+            onClose={() => setCookieError(false)}
+          />
 
           <div className="min-h-screen bg-white dark:bg-zinc-950 transition-colors duration-300">
             <Routes>
-              {/* PUBLIC ROUTES */}
               <Route path="/" element={<HomePage />} />
               <Route path="/books" element={<BooksList />} />
               <Route path="/books/:id" element={<BookDetail />} />
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
 
-              {/* PROTECTED ROUTES */}
               <Route
                 path="/add"
                 element={

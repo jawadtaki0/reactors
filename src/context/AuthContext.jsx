@@ -3,18 +3,27 @@ import { authApi } from "../services/api";
 
 const AuthContext = createContext();
 
-export const AuthProvider = ({ children }) => {
+export const AuthProvider = ({ children, onCookieBlocked }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [mfaData, setMfaData] = useState(null);
 
-  // fetch user
+  // fetch user on load
   const fetchUser = async () => {
     try {
       const res = await authApi.getMe();
       setUser(res.data.user);
     } catch (err) {
       setUser(null);
+
+      // detect blocked cookie users
+      if (
+        err.response?.status === 401 &&
+        err.response?.data?.message === "Not authenticated"
+      ) {
+        console.warn("🔥 Cookies blocked -> triggering popup");
+        onCookieBlocked && onCookieBlocked(); // trigger popup
+      }
     } finally {
       setLoading(false);
     }
@@ -24,17 +33,13 @@ export const AuthProvider = ({ children }) => {
     fetchUser();
   }, []);
 
-  // google login
   const loginWithGoogle = () => {
     window.location.href = authApi.getGoogleUrl();
   };
 
-  // register
   const register = async (data) => {
     try {
       const res = await authApi.register(data);
-
-      // backend returns: success, mfa, email, userId
       return {
         success: true,
         userId: res.data.userId,
@@ -49,7 +54,6 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  // login
   const login = async (data) => {
     try {
       const res = await authApi.login(data);
@@ -73,14 +77,11 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  // verify otp
   const verifyOtp = async ({ userId, otp }) => {
     try {
       const res = await authApi.verifyOtp({ userId, otp });
-
       setUser(res.data.user);
       setMfaData(null);
-
       return { success: true };
     } catch (err) {
       return {
@@ -90,21 +91,19 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  // resend otp
   const resendOtp = async (userId) => {
     try {
       await authApi.resendOtp({ userId });
       return { success: true };
-    } catch (err) {
+    } catch {
       return { success: false };
     }
   };
 
-  // logout
   const logout = async () => {
     try {
       await authApi.logout();
-    } catch (err) {}
+    } catch {}
     setUser(null);
   };
 
