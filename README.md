@@ -1,11 +1,7 @@
 # Reactors — Book Management Web App
 
-A modern and intuitive platform for browsing, tracking, and managing books.  
-Built with **React + Vite + TailwindCSS**, emphasizing speed, simplicity, and smooth UI/UX.
-
----
-
----
+A modern, full-stack powered platform for browsing, tracking, and managing books.
+Built with React + Vite + TailwindCSS, featuring authentication, reading lists, profile management, dark mode, and a real backend API integration.
 
 # Team Members
 
@@ -16,182 +12,302 @@ Built with **React + Vite + TailwindCSS**, emphasizing speed, simplicity, and sm
 | **Hussein Sabra** | Book Listing, Book Details |
 | **Ali Daouk** | Profile Page, Reading List |
 
----
-
 # Overview
 
-Reactors is a responsive book management web app where users can:
+Reactors is a responsive book management web application where users can:
 
-- Browse a curated collection of books  
-- View detailed information for each book  
-- Add, edit, and delete books (if authorized)  
-- Maintain a personal reading list (e.g., “Want to Read”, “Reading”, “Finished”)  
-- Track reading progress and see a summary  
-- Manage profile details  
-- Register, log in, log out, and stay authenticated across sessions  
-- Optionally log in with Google
----
-In **Phase 2 (this version)**, all data comes from a **real backend API** via HTTP requests.
-# Primary Data Entities
+Browse all books from the backend
 
-### **Book**
-Represents each book with attributes like:
-- title  
-- author  
-- year  
-- genre  
-- description  
-- cover image  
-- id  
+View detailed information about each book
 
-Stored in:
-```
-src/data/books.js
-```
+Add, edit, or delete books
 
-### **User**
-Represents user information for login and profile pages.
+Maintain a personalized reading list
 
-### **Reading List Entry**
-Simulates user's reading progress and book tracking.
+Track reading progress
 
----
-## Frontend Features
+Update profile information
 
-### 1. Authentication & Security
+Register, login, verify OTP, reset password
 
-- Email/password registration and login  
-- OTP verification flows:
-  - Register → verify account with OTP  
-  - Forgot password → verify reset OTP → set new password  
-- Persistent sessions using cookies (`withCredentials: true` in Axios)  
-- Logout from all protected pages  
-- Optional **Google OAuth** login (frontend uses a backend-provided URL)  
-- Protected routes using `ProtectedRoute.jsx` and `AuthContext.jsx`  
+Enjoy a sleek and animated UI with dark mode support
 
-### 2. Book Management
+This frontend is fully connected to a real backend API, replacing the mock-data setup of Phase 1.
 
-- View all books in a responsive grid (`BooksList.jsx`)  
-- View full details of a single book (`BookDetail.jsx`):
-  - title, author, year, genre, description, cover, etc.  
-- Add a new book (`AddEditBook.jsx` in “add” mode)  
-- Edit an existing book (`AddEditBook.jsx` in “edit” mode)  
-- Delete books (if authorized)  
-- “My Books” / “Mine” integration (via `/books/mine` backend route)
+# Features
+## Authentication & Security
 
-All operations are done through the real API in `src/services/api.js`.
+Register / Login
 
-### 3. Reading List & User Library
+OTP verification
 
-- Personalized reading list in `ReadingList.jsx` backed by `/userbooks` endpoints  
-- Support for different reading states (e.g., want-to-read, reading, finished)  
-- Summary view (`/userbooks/summary`) for statistics and quick insights  
-- Integration with `UserProfile.jsx` for user-centric information
+Forgot Password + Reset via OTP
 
-### 4. UI / UX & Theming
+Session-based authentication (cookies)
 
-- **TailwindCSS** for modern, responsive styling  
-- Clean layout with **Navbar** and **Footer** components  
-- **Dark mode** support via `ThemeContext.jsx`  
-- Smooth UX with modals and feedback:
-  - `OtpModal.jsx` for OTP entry  
-  - `CookieFixPopup.jsx` to warn about blocked cookies (authentication relies on them)  
+Auto-redirect using ProtectedRoute
 
-### 5. Utilities & Extras
+Cookie handling UI with CookieFixPopup
 
-- `detectBrowser.js` and `checkCookies.js` to improve reliability when cookies are blocked  
-- `coverCache.js` and `fetchCover.js` for efficient cover image fetching and caching  
-- React Router-based navigation between pages (home, login, register, books, profile, etc.)
+## Book Management (CRUD)
 
+View all books
 
----
+Add new books
 
-# Tech Stack
+Edit existing books
 
-- **React 18**
-- **Vite**
-- **TailwindCSS**
-- **React Router DOM**
-- **Framer Motion**
-- **Local/Session Storage**
-- **Context API**
+Delete books
 
----
+View detailed description of each book
 
-# Project Structure
+## Reading List
 
-```
+Add books to personal reading list
+
+Update reading status (Reading / Finished)
+
+Remove items from reading list
+
+View progress summary
+
+## User Profile
+
+View user data
+
+Track reading statistics
+
+View your own books (“My Books”)
+
+## UI / UX
+
+Fully responsive
+
+TailwindCSS styling
+
+Framer Motion animations
+
+Dark / Light mode
+
+Clean navigation bar
+
+Dynamic cover loading with caching
+
+Tech Stack
+
+React 18
+
+Vite
+
+TailwindCSS
+
+React Router DOM
+
+Framer Motion
+
+Axios
+
+Context API
+
+Lucide Icons
+
+# Full Frontend Architecture
 src/
- ├── assets/            # Images and static files
- ├── components/        # UI components
- ├── context/           # BookContext (mock backend simulation)
- ├── data/              # Mock data (books.js)
- ├── pages/             # Application pages
- ├── App.jsx            # App root + routing
- └── main.jsx           # Vite entry point
-```
+ ├── assets/               # Images, covers, screenshots
+ ├── components/           # Reusable UI components
+ │     ├── Navbar.jsx
+ │     ├── Footer.jsx
+ │     ├── OtpModal.jsx
+ │     ├── CookieFixPopup.jsx
+ │     └── ProtectedRoute.jsx
+ ├── context/              # Global state (auth, books, theme)
+ │     ├── AuthContext.jsx
+ │     ├── BookContext.jsx
+ │     └── ThemeContext.jsx
+ ├── pages/                # All app pages
+ │     ├── HomePage.jsx
+ │     ├── BooksList.jsx
+ │     ├── BookDetail.jsx
+ │     ├── AddEditBook.jsx
+ │     ├── ReadingList.jsx
+ │     ├── Login.jsx
+ │     ├── Register.jsx
+ │     └── UserProfile.jsx
+ ├── services/
+ │     └── api.js          # Axios instance + endpoint wrappers
+ ├── utils/                # Helper functions
+ ├── App.jsx               # Root router + layout
+ └── main.jsx              # Entry point
 
----
+# API Integration (Frontend → Backend)
 
-# Mock Data Architecture
+All network requests use a shared axios instance:
 
-### `src/data/books.js`
-Acts as a **local database**.
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
 
-Example:
-```js
-{
-  id: 1,
-  title: "Atomic Habits",
-  author: "James Clear",
-  year: 2018,
-  genre: "Self-help",
-  description: "...",
-  cover: "/covers/atomic.jpg"
-}
-```
+## Auth API
 
-### `src/context/BookContext.jsx`
-Simulates backend API:
+POST /auth/register
 
-- `getBooks()`
-- `getBookById()`
-- `addBook()`
-- `updateBook()`
-- `deleteBook()`
+POST /auth/login
 
-This makes the entire app behave like a real full-stack project without needing an API.
+POST /auth/verify-otp
 
----
+POST /auth/forgot-password
+
+POST /auth/verify-reset-otp
+
+POST /auth/reset-password
+
+GET /auth/me
+
+POST /auth/logout
+
+## Books API
+
+GET /books
+
+GET /books/:id
+
+POST /books
+
+PUT /books/:id
+
+DELETE /books/:id
+
+GET /books/mine
+
+## UserBooks API (Reading List)
+
+GET /userbooks
+
+GET /userbooks/summary
+
+POST /userbooks
+
+PUT /userbooks/:id
+
+DELETE /userbooks/:id
+
+# Key Components
+##Navbar
+
+Dynamic navigation links
+
+Shows login/register or profile/logout
+
+Dark mode toggle
+
+Mobile-friendly responsive menu
+
+## Footer
+
+Minimal footer
+
+Dark mode adaptive
+
+## OtpModal
+
+Used for OTP verification in Login and Reset Password
+
+Automatically triggered when backend requires OTP
+
+Animated, clean UI
+
+## ProtectedRoute
+
+Wraps pages that require authentication
+
+Redirects to login if user is not logged in
+
+## CookieFixPopup
+
+Detects browser (Chrome, Firefox, Safari, Edge, Android)
+
+Shows instructions to enable cookies
+
+Helps users whose browser blocks auth cookies
+
+Theme-sensitive UI (dark/light)
+
+# Pages Summary
+## HomePage
+
+Hero section
+
+Animations
+
+Featured books
+
+## BooksList
+
+Displays all books from backend
+
+Filters & responsive grid
+
+## BookDetail
+
+View cover, title, author, description
+
+Add to reading list
+
+Edit or delete book (if owner)
+
+## AddEditBook
+
+Add new book
+
+Update existing book
+
+Fully validated form
+
+## ReadingList
+
+Displays user’s reading items
+
+Update status or remove
+
+## UserProfile
+
+User information
+
+Stats (books added, reading list summary)
+
+My books section
+
+## Auth Pages (Login + Register)
+
+Validation
+
+OTP flows
+
+Cookie protection
 
 # Setup Instructions
+1. Clone the Repository
+git clone https://github.com/jawadtaki0/reactors.git
 
-### 1️. Clone the Repository  
-```
-git clone https://github.com/alikhalifehh/Reactors.git
-```
+2. Navigate to the Project
+cd reactors
 
-### 2️. Navigate to the Project  
-```
-cd Reactors
-```
-
-### 3️. Install Dependencies  
-```
+3. Install Dependencies
 npm install
-```
 
-### 4️. Run the Development Server  
-```
+4. Add Environment Variables
+
+Create a .env file:
+
+VITE_API_URL=https://reactors-backendd-onrender.com/api
+GOOGLE_CLIENT_ID=563014879392-hdubdjvbpdbovliebolb52qoj45sd34j.apps.googleusercontent.com
+
+
+5. Run the Development Server
 npm run dev
-```
+
 
 App runs at:
-```
-http://localhost:5173
-```
 
----
+http://localhost:5173
 
 # Screenshots
 
@@ -224,30 +340,38 @@ http://localhost:5173
 
 ![Dark Mode](src/assets/k.jpg)
 
-
 ---
 
-# Phase 2 — Full Stack Integration (Frontend + Backend)
+# The frontend now communicates with a real backend using:
 
-The frontend was connected to a real backend API.
+Secure cookies
 
-Authentication now uses backend endpoints.
+Real user sessions
 
-Books and reading list entries are stored in MongoDB.
+MongoDB-powered storage
 
-All CRUD operations communicate with the backend through real API endpoints.
+OTP authentication
 
-The app now behaves like a full production-ready system. 
-
----
+CRUD operations on books and reading list
 
 # Conclusion
 
 Reactors demonstrates:
 
-- Clean React architecture  
-- Component-based design  
-- Smooth UI/UX  
-- Team collaboration  
-- Simulated full-stack behavior (Phase1)
-- Connected to Backend (Phase 2)
+Strong React architecture
+
+Clean component structure
+
+Real backend integration
+
+Secure authentication & OTP
+
+Dynamic reading list system
+
+Responsive design
+
+Smooth team collaboration
+
+Production-level UI/UX
+
+This frontend is now fully capable of supporting real user data and scalable book management features.
