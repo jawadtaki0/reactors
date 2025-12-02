@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { useTheme } from "../context/ThemeContext";
 import Navbar from "../components/Navbar";
+import { authApi } from "../services/api";
 
 export default function Register() {
   const { register, setMfaData } = useAuth();
@@ -102,12 +103,16 @@ export default function Register() {
     <>
       <Navbar />
 
-      <main className={`min-h-screen flex items-center justify-center pt-24 px-4 transition-colors duration-300 ${
-        theme === "dark" ? "bg-zinc-950" : "bg-gray-100"
-      }`}>
-        <section className={`w-full max-w-md rounded-2xl shadow-lg p-8 ${
-          theme === "dark" ? "bg-zinc-900 text-white" : "bg-white text-black"
-        }`}>
+      <main
+        className={`min-h-screen flex items-center justify-center pt-24 px-4 transition-colors duration-300 ${
+          theme === "dark" ? "bg-zinc-950" : "bg-gray-100"
+        }`}
+      >
+        <section
+          className={`w-full max-w-md rounded-2xl shadow-lg p-8 ${
+            theme === "dark" ? "bg-zinc-900 text-white" : "bg-white text-black"
+          }`}
+        >
           <h1 className="text-3xl font-bold text-center mb-6 text-[#660000]">
             Create Your Account
           </h1>
@@ -118,7 +123,7 @@ export default function Register() {
 
           <button
             onClick={() => {
-              window.location.href = "http://localhost:5000/api/auth/google";
+              window.location.href = authApi.getGoogleUrl();
             }}
             className={`w-full flex items-center justify-center gap-3 border py-2 mb-6 rounded-lg transition ${
               theme === "dark"
@@ -131,20 +136,42 @@ export default function Register() {
               alt="Google Logo"
               className="w-5 h-5"
             />
-            <span className={`font-medium ${theme === "dark" ? "text-white" : "text-gray-700"}`}>
+            <span
+              className={`font-medium ${
+                theme === "dark" ? "text-white" : "text-gray-700"
+              }`}
+            >
               Sign up with Google
             </span>
           </button>
 
           <div className="flex items-center my-6">
-            <div className={`flex-grow h-px ${theme === "dark" ? "bg-zinc-700" : "bg-gray-300"}`}></div>
-            <span className={`px-4 text-sm ${theme === "dark" ? "text-gray-500" : "text-gray-500"}`}>OR</span>
-            <div className={`flex-grow h-px ${theme === "dark" ? "bg-zinc-700" : "bg-gray-300"}`}></div>
+            <div
+              className={`flex-grow h-px ${
+                theme === "dark" ? "bg-zinc-700" : "bg-gray-300"
+              }`}
+            ></div>
+            <span
+              className={`px-4 text-sm ${
+                theme === "dark" ? "text-gray-500" : "text-gray-500"
+              }`}
+            >
+              OR
+            </span>
+            <div
+              className={`flex-grow h-px ${
+                theme === "dark" ? "bg-zinc-700" : "bg-gray-300"
+              }`}
+            ></div>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-5">
             <div>
-              <label className={`block text-sm mb-1 ${theme === "dark" ? "text-gray-300" : "text-gray-700"}`}>
+              <label
+                className={`block text-sm mb-1 ${
+                  theme === "dark" ? "text-gray-300" : "text-gray-700"
+                }`}
+              >
                 Full Name
               </label>
               <input
@@ -165,7 +192,11 @@ export default function Register() {
             </div>
 
             <div>
-              <label className={`block text-sm mb-1 ${theme === "dark" ? "text-gray-300" : "text-gray-700"}`}>
+              <label
+                className={`block text-sm mb-1 ${
+                  theme === "dark" ? "text-gray-300" : "text-gray-700"
+                }`}
+              >
                 Email
               </label>
               <input
@@ -186,7 +217,11 @@ export default function Register() {
             </div>
 
             <div>
-              <label className={`block text-sm mb-1 ${theme === "dark" ? "text-gray-300" : "text-gray-700"}`}>
+              <label
+                className={`block text-sm mb-1 ${
+                  theme === "dark" ? "text-gray-300" : "text-gray-700"
+                }`}
+              >
                 Password
               </label>
               <input
@@ -211,9 +246,11 @@ export default function Register() {
               )}
 
               <div className="w-full mt-2">
-                <div className={`h-2 w-full rounded-full overflow-hidden ${
-                  theme === "dark" ? "bg-zinc-700" : "bg-gray-300"
-                }`}>
+                <div
+                  className={`h-2 w-full rounded-full overflow-hidden ${
+                    theme === "dark" ? "bg-zinc-700" : "bg-gray-300"
+                  }`}
+                >
                   <div
                     className={`h-full transition-all duration-500 ${
                       passwordStrength === 1
@@ -228,7 +265,11 @@ export default function Register() {
             </div>
 
             <div>
-              <label className={`block text-sm mb-1 ${theme === "dark" ? "text-gray-300" : "text-gray-700"}`}>
+              <label
+                className={`block text-sm mb-1 ${
+                  theme === "dark" ? "text-gray-300" : "text-gray-700"
+                }`}
+              >
                 Confirm Password
               </label>
               <input
@@ -259,7 +300,11 @@ export default function Register() {
             </button>
           </form>
 
-          <p className={`text-center text-sm mt-6 ${theme === "dark" ? "text-gray-400" : "text-gray-600"}`}>
+          <p
+            className={`text-center text-sm mt-6 ${
+              theme === "dark" ? "text-gray-400" : "text-gray-600"
+            }`}
+          >
             Already have an account?{" "}
             <Link
               to="/login"
