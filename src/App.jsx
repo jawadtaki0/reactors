@@ -11,6 +11,7 @@ import Register from "./pages/Register";
 
 import ProtectedRoute from "./components/ProtectedRoute";
 import CookieFixPopup from "./components/CookieFixPopup";
+import SmartCookieCheck from "./components/SmartCookieCheck";
 
 import { AuthProvider } from "./context/AuthContext";
 import { ThemeProvider } from "./context/ThemeContext";
@@ -23,10 +24,13 @@ export default function App() {
   return (
     <BrowserRouter>
       <ThemeProvider>
-        <AuthProvider onCookieBlocked={() => setCookieError(true)}>
+        <AuthProvider>
           <OtpModal />
-          <SmartCookieCheck />
 
+          {/* Run cookie test on first load */}
+          <SmartCookieCheck onBlocked={() => setCookieError(true)} />
+
+          {/* Popup with instructions */}
           <CookieFixPopup
             show={cookieError}
             onClose={() => setCookieError(false)}
