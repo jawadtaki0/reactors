@@ -14,16 +14,16 @@ export const AuthProvider = ({ children, onCookieBlocked }) => {
       const res = await authApi.getMe();
       setUser(res.data.user);
     } catch (err) {
-      setUser(null);
+      const isCookieError =
+        err.response?.status === 401 ||
+        err.message?.includes("cookie") ||
+        err.message?.includes("blocked");
 
-      // detect blocked cookie users
-      if (
-        err.response?.status === 401 &&
-        err.response?.data?.message === "Not authenticated"
-      ) {
-        console.warn("🔥 Cookies blocked -> triggering popup");
-        onCookieBlocked && onCookieBlocked(); // trigger popup
+      if (isCookieError && typeof onCookieBlocked === "function") {
+        onCookieBlocked();
       }
+
+      setUser(null);
     } finally {
       setLoading(false);
     }

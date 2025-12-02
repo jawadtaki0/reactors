@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { useState } from "react";
 
 import HomePage from "./pages/HomePage";
 import BooksList from "./pages/BooksList";
@@ -11,12 +12,10 @@ import Register from "./pages/Register";
 
 import ProtectedRoute from "./components/ProtectedRoute";
 import CookieFixPopup from "./components/CookieFixPopup";
-import SmartCookieCheck from "./components/SmartCookieCheck";
 
 import { AuthProvider } from "./context/AuthContext";
 import { ThemeProvider } from "./context/ThemeContext";
 import OtpModal from "./components/OtpModal";
-import { useState } from "react";
 
 export default function App() {
   const [cookieError, setCookieError] = useState(false);
@@ -24,13 +23,10 @@ export default function App() {
   return (
     <BrowserRouter>
       <ThemeProvider>
-        <AuthProvider>
+        <AuthProvider onCookieBlocked={() => setCookieError(true)}>
           <OtpModal />
 
-          {/* Run cookie test on first load */}
-          <SmartCookieCheck onBlocked={() => setCookieError(true)} />
-
-          {/* Popup with instructions */}
+          {/* cookie popup */}
           <CookieFixPopup
             show={cookieError}
             onClose={() => setCookieError(false)}

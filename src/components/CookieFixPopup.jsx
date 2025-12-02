@@ -41,10 +41,10 @@ export default function CookieFixPopup({ show, onClose }) {
             Open: <b>chrome://settings/cookies</b>
           </li>
           <li>
-            Enable <b>“Allow all cookies”</b>
+            Enable <b>Allow all cookies</b>
           </li>
           <li>
-            Add your site to <b>Allowed sites</b>
+            Add this site to <b>Allowed sites</b>
           </li>
         </ol>
       </>
@@ -58,11 +58,11 @@ export default function CookieFixPopup({ show, onClose }) {
         <ol
           className={`list-decimal list-inside space-y-1 text-sm ${textColor}`}
         >
-          <li>Go to Settings → Privacy</li>
+          <li>Settings → Privacy</li>
           <li>
-            Set tracking protection to <b>Standard</b>
+            Tracking Protection → <b>Standard</b>
           </li>
-          <li>Allow cookies for your site</li>
+          <li>Allow cookies</li>
         </ol>
       </>
     ),
@@ -75,7 +75,7 @@ export default function CookieFixPopup({ show, onClose }) {
         <ol
           className={`list-decimal list-inside space-y-1 text-sm ${textColor}`}
         >
-          <li>Open Settings → Safari</li>
+          <li>Settings → Safari</li>
           <li>
             Disable <b>Block All Cookies</b>
           </li>
@@ -94,11 +94,9 @@ export default function CookieFixPopup({ show, onClose }) {
         <ol
           className={`list-decimal list-inside space-y-1 text-sm ${textColor}`}
         >
+          <li>edge://settings/content/cookies</li>
           <li>
-            Open: <b>edge://settings/content/cookies</b>
-          </li>
-          <li>
-            Enable <b>Allow sites to save cookie data</b>
+            Enable <b>Allow sites to save cookies</b>
           </li>
         </ol>
       </>
@@ -112,18 +110,15 @@ export default function CookieFixPopup({ show, onClose }) {
         <ol
           className={`list-decimal list-inside space-y-1 text-sm ${textColor}`}
         >
-          <li>Open browser → Settings</li>
-          <li>Go to Privacy / Security</li>
-          <li>Enable Cookies + disable “Block third-party cookies”</li>
+          <li>Browser → Settings</li>
+          <li>Privacy / Security</li>
+          <li>Enable Cookies + disable blocking 3rd-party cookies</li>
         </ol>
       </>
     ),
 
     unknown: (
       <>
-        <h3 className="text-lg font-semibold text-center text-gray-500 mb-2">
-          Unknown Browser
-        </h3>
         <p className={`text-sm ${textColor} text-center`}>
           Please enable cookies in your browser settings.
         </p>
@@ -134,14 +129,13 @@ export default function CookieFixPopup({ show, onClose }) {
   return (
     <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-[9999] p-4">
       <div
-        className={`w-full max-w-lg rounded-2xl shadow-xl p-6 relative overflow-y-auto max-h-[90vh] border 
-          ${
-            theme === "dark"
-              ? "bg-zinc-900 border-zinc-700"
-              : "bg-white border-gray-200"
-          }`}
+        className={`w-full max-w-lg rounded-2xl shadow-xl p-6 relative border 
+        ${
+          theme === "dark"
+            ? "bg-zinc-900 border-zinc-700"
+            : "bg-white border-gray-200"
+        }`}
       >
-        {/* Close button */}
         <button
           className="absolute top-3 right-3 p-2 hover:bg-black/10 dark:hover:bg-white/10 rounded-full transition"
           onClick={onClose}
@@ -152,7 +146,6 @@ export default function CookieFixPopup({ show, onClose }) {
           />
         </button>
 
-        {/* Title */}
         <h2 className="text-2xl font-bold text-center text-red-500 mb-2">
           Login Cookies Blocked
         </h2>
@@ -161,10 +154,8 @@ export default function CookieFixPopup({ show, onClose }) {
           Your browser is blocking required login cookies. Follow these steps:
         </p>
 
-        {/* Auto-detected block */}
         {instructions[browser]}
 
-        {/* Button */}
         <button
           className="mt-6 w-full bg-[#ff0054] hover:bg-[#d60046] text-white py-2 rounded-lg font-semibold transition"
           onClick={onClose}
