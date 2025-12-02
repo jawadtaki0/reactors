@@ -1,19 +1,25 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useState, useRef, useEffect } from "react";
-import { useAuth } from "../context/AuthContext";
 import { Menu, X, Sun, Moon } from "lucide-react";
+import { useAuth } from "../context/AuthContext";
 import { useTheme } from "../context/ThemeContext";
 
 export default function Navbar() {
   const navigate = useNavigate();
-  const { user, logout } = useAuth();
 
+  // GET USER + LOADING + LOGOUT
+  const { user, logout, loading } = useAuth();
+
+  // MOBILE + DROPDOWN STATES
   const [mobileOpen, setMobileOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
   const dropdownRef = useRef(null);
+
+  // THEME
   const { theme, toggleTheme } = useTheme();
 
+  // CLOSE DROPDOWN WHEN CLICKING OUTSIDE
   useEffect(() => {
     const handleClick = (e) => {
       if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
@@ -25,6 +31,7 @@ export default function Navbar() {
     return () => document.removeEventListener("mousedown", handleClick);
   }, []);
 
+  // LOGOUT HANDLER
   const handleLogout = async () => {
     await logout();
     window.location.href = "/";
@@ -56,7 +63,7 @@ export default function Navbar() {
           {/* THEME TOGGLE */}
           <button
             onClick={toggleTheme}
-            className="p-2 rounded-lg hover:bg-black/10 dark:hover:bg-white/10 transition-all duration-300"
+            className="p-2 rounded-lg hover:bg-black/10 dark:hover:bg-white/10 transition"
             aria-label="Toggle Theme"
           >
             {theme === "dark" ? (
@@ -85,7 +92,7 @@ export default function Navbar() {
           ) : (
             <div className="relative" ref={dropdownRef}>
               <button
-                onClick={() => setDropdownOpen((p) => !p)}
+                onClick={() => setDropdownOpen((prev) => !prev)}
                 className="flex items-center gap-2 px-4 py-2 bg-[#631730ff] text-white rounded-lg hover:bg-[#B4182D] transition"
               >
                 <span>{user.name}</span>
@@ -112,7 +119,7 @@ export default function Navbar() {
           )}
         </div>
 
-        {/* MOBILE BURGER */}
+        {/* MOBILE MENU BUTTON */}
         <button
           className="md:hidden text-[#631730ff] dark:text-white"
           onClick={() => setMobileOpen((prev) => !prev)}
@@ -121,10 +128,11 @@ export default function Navbar() {
         </button>
       </div>
 
-      {mobileOpen && (
+      {/* MOBILE MENU */}
+      {mobileOpen && !loading && (
         <div className="md:hidden bg-white dark:bg-zinc-900 pb-4 shadow-lg border-t dark:border-zinc-700 text-[#631730ff] dark:text-white transition">
           <div className="px-6 py-4 flex flex-col gap-4 text-lg font-medium">
-            {/* Theme toggle */}
+            {/* THEME BUTTON */}
             <button
               onClick={toggleTheme}
               className="self-start p-2 rounded-lg hover:bg-black/10 dark:hover:bg-white/10 transition"
@@ -137,7 +145,11 @@ export default function Navbar() {
             </button>
 
             {/* USER NAME */}
-            {user && <div className="font-semibold text-xl">{user.name}</div>}
+            {loading ? (
+              <div className="opacity-60">Loading...</div>
+            ) : user ? (
+              <div className="font-semibold text-xl">{user.name}</div>
+            ) : null}
 
             {/* LINKS */}
             <Link to="/books" onClick={() => setMobileOpen(false)}>
@@ -153,6 +165,7 @@ export default function Navbar() {
               Add & Edit
             </Link>
 
+            {/* AUTH (Mobile) */}
             {!user ? (
               <>
                 <Link
@@ -162,7 +175,6 @@ export default function Navbar() {
                 >
                   Login
                 </Link>
-
                 <Link
                   to="/register"
                   onClick={() => setMobileOpen(false)}
