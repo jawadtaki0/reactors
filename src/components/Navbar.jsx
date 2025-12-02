@@ -34,10 +34,7 @@ export default function Navbar() {
     <nav className="w-full bg-white/80 dark:bg-zinc-900/80 backdrop-blur-md shadow-md fixed top-0 left-0 z-50 transition-all">
       <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
         {/* LOGO */}
-        <Link
-          to="/"
-          className="text-3xl font-bold text-[#631730ff]"
-        >
+        <Link to="/" className="text-3xl font-bold text-[#631730ff]">
           Reactors 📚
         </Link>
 
@@ -93,7 +90,9 @@ export default function Navbar() {
               >
                 <span>{user.name}</span>
                 <span
-                  className={`transition-transform duration-300 ${dropdownOpen ? "rotate-180" : ""}`}
+                  className={`transition-transform duration-300 ${
+                    dropdownOpen ? "rotate-180" : ""
+                  }`}
                 >
                   ▼
                 </span>
@@ -122,7 +121,6 @@ export default function Navbar() {
         </button>
       </div>
 
-      {/* MOBILE MENU */}
       {mobileOpen && (
         <div className="md:hidden bg-white dark:bg-zinc-900 pb-4 shadow-lg border-t dark:border-zinc-700 text-[#631730ff] dark:text-white transition">
           <div className="px-6 py-4 flex flex-col gap-4 text-lg font-medium">
@@ -138,6 +136,10 @@ export default function Navbar() {
               )}
             </button>
 
+            {/* USER NAME */}
+            {user && <div className="font-semibold text-xl">{user.name}</div>}
+
+            {/* LINKS */}
             <Link to="/books" onClick={() => setMobileOpen(false)}>
               Books
             </Link>

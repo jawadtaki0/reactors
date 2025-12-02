@@ -100,7 +100,9 @@ export default function UserProfile() {
         }`}
       >
         <Navbar />
-        <main className="flex-1 pt-32 pb-10 text-center">Loading profile...</main>
+        <main className="flex-1 pt-32 pb-10 text-center">
+          Loading profile...
+        </main>
         <Footer />
       </div>
     );
@@ -153,9 +155,7 @@ export default function UserProfile() {
   return (
     <div
       className={`min-h-screen flex flex-col transition-colors duration-300 ${
-        theme === "dark"
-          ? "bg-[#140404] text-white"
-          : "bg-[#FFFCE0] text-black"
+        theme === "dark" ? "bg-[#140404] text-white" : "bg-[#FFFCE0] text-black"
       }`}
     >
       <Navbar />
@@ -163,7 +163,7 @@ export default function UserProfile() {
       <main className="flex-1 max-w-5xl mx-auto pt-24 pb-20 px-4 sm:px-6 space-y-8">
         {/* PROFILE CARD */}
         <section
-          className={`w-[1000px] relative rounded-3xl overflow-hidden shadow-xl border transition-colors ${
+          className={`w-full max-w-2xl relative rounded-3xl overflow-hidden shadow-xl border transition-colors ${
             theme === "dark"
               ? "bg-zinc-700 text-white"
               : "bg-[#BAAE93] text-black"
@@ -251,7 +251,8 @@ export default function UserProfile() {
                 theme === "dark" ? "text-gray-300" : "text-gray-700"
               }`}
             >
-              {profileExtras.bio || "No bio yet. Click Edit Profile to add one."}
+              {profileExtras.bio ||
+                "No bio yet. Click Edit Profile to add one."}
             </p>
 
             {(profileExtras.location || profileExtras.favoriteGenre) && (
@@ -260,7 +261,9 @@ export default function UserProfile() {
                   theme === "dark" ? "text-gray-400" : "text-gray-600"
                 }`}
               >
-                {profileExtras.location && <span>{profileExtras.location}</span>}
+                {profileExtras.location && (
+                  <span>{profileExtras.location}</span>
+                )}
                 {profileExtras.location && profileExtras.favoriteGenre && (
                   <span className="mx-2">•</span>
                 )}
@@ -329,7 +332,7 @@ export default function UserProfile() {
 
         {/* ACTIVITY */}
         <section
-          className={`w-[1000px] rounded-3xl p-6 shadow-lg border transition-colors ${
+          className={`w-full max-w-3xl rounded-3xl p-6 shadow-lg border transition-colors ${
             theme === "dark"
               ? "bg-zinc-700 border-white/5"
               : "bg-[#BAAE93] text-black"
@@ -381,9 +384,7 @@ export default function UserProfile() {
 
                     <p
                       className={`text-xs ${
-                        theme === "dark"
-                          ? "text-gray-400"
-                          : "text-gray-600"
+                        theme === "dark" ? "text-gray-400" : "text-gray-600"
                       }`}
                     >
                       {entry.status}{" "}

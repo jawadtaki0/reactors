@@ -123,7 +123,7 @@ export default function ReadingList() {
               return (
                 <div
                   key={entry._id}
-                  className={`w-[1200px]
+                  className={`w-full max-w-3xl
                     rounded-2xl p-6 shadow-xl flex gap-6 flex-col sm:flex-row
                     transition-colors
                     ${
@@ -135,7 +135,7 @@ export default function ReadingList() {
                 >
                   {/* COVER */}
                   <div className="flex-shrink-0">
-                    {(entry.coverImage || b.coverImage) ? (
+                    {entry.coverImage || b.coverImage ? (
                       <img
                         src={entry.coverImage || b.coverImage}
                         className={`
@@ -171,7 +171,9 @@ export default function ReadingList() {
                       <p
                         className={`
                           text-sm
-                          ${theme === "dark" ? "text-gray-300" : "text-gray-600"}
+                          ${
+                            theme === "dark" ? "text-gray-300" : "text-gray-600"
+                          }
                         `}
                       >
                         {b.author}
@@ -189,11 +191,7 @@ export default function ReadingList() {
                         <div
                           className={`
                             h-2 rounded-full overflow-hidden
-                            ${
-                              theme === "dark"
-                                ? "bg-[#0f172a]"
-                                : "bg-gray-200"
-                            }
+                            ${theme === "dark" ? "bg-[#0f172a]" : "bg-gray-200"}
                           `}
                         >
                           <div
@@ -213,9 +211,7 @@ export default function ReadingList() {
                       <div className="mt-4 flex flex-wrap items-center gap-3 text-sm">
                         <span
                           className={`text-xs ${
-                            theme === "dark"
-                              ? "text-gray-300"
-                              : "text-gray-700"
+                            theme === "dark" ? "text-gray-300" : "text-gray-700"
                           }`}
                         >
                           Status: {entry.status}
@@ -245,12 +241,12 @@ export default function ReadingList() {
 
                         <span
                           className={`text-xs ${
-                            theme === "dark"
-                              ? "text-gray-300"
-                              : "text-gray-600"
+                            theme === "dark" ? "text-gray-300" : "text-gray-600"
                           }`}
                         >
-                          {entry.rating ? `${entry.rating} / 5` : "No rating yet"}
+                          {entry.rating
+                            ? `${entry.rating} / 5`
+                            : "No rating yet"}
                         </span>
                       </div>
 
@@ -258,7 +254,9 @@ export default function ReadingList() {
                       <div
                         className={`
                           mt-4 text-sm
-                          ${theme === "dark" ? "text-gray-300" : "text-gray-700"}
+                          ${
+                            theme === "dark" ? "text-gray-300" : "text-gray-700"
+                          }
                         `}
                       >
                         {editingNotesId === entry._id ? (

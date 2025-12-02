@@ -67,43 +67,67 @@ export default function AddEditBook() {
 
   if (loading) {
     return (
-      <div className={`min-h-screen flex flex-col ${theme === "dark" ? "bg-[#140404] text-white" : "bg-[#FFFCE0] text-black"}`}>
+      <div
+        className={`min-h-screen flex flex-col ${
+          theme === "dark"
+            ? "bg-[#140404] text-white"
+            : "bg-[#FFFCE0] text-black"
+        }`}
+      >
         <Navbar />
-        <main className="flex-1 pt-28 px-6 text-center">
-          Loading...
-        </main>
+        <main className="flex-1 pt-28 px-6 text-center">Loading...</main>
         <Footer />
       </div>
     );
   }
 
   return (
-    <div className={`min-h-screen flex flex-col transition-colors duration-300 ${theme === "dark" ? "bg-[#140404] text-white" : "bg-[#FFFCE0] text-black"}`}>
+    <div
+      className={`min-h-screen flex flex-col transition-colors duration-300 ${
+        theme === "dark" ? "bg-[#140404] text-white" : "bg-[#FFFCE0] text-black"
+      }`}
+    >
       <Navbar />
-<main className="flex-1 max-w-6xl mx-auto pt-24 pb-16 px-4 sm:px-8">
+      <main className="flex-1 max-w-6xl mx-auto pt-24 pb-16 px-4 sm:px-8">
         <button
           onClick={() => navigate("/books")}
-          className={`text-xs mb-4 transition-colors ${theme === "dark" ? "text-gray-400 hover:text-gray-200" : "text-gray-600 hover:text-gray-900"}`}
+          className={`text-xs mb-4 transition-colors ${
+            theme === "dark"
+              ? "text-gray-400 hover:text-gray-200"
+              : "text-gray-600 hover:text-gray-900"
+          }`}
         >
           ← Back to Books
         </button>
 
-        <section className={`w-[1200px] mx-auto rounded-4xl shadow-xl p-10 sm:p-12 transition-colors ${theme === "dark" ? "bg-zinc-700 border border-zinc-800" : "bg-[#BAAE93] border border-gray-200"}`}>
+        <section
+          className={`w-full max-w-3xl mx-auto rounded-4xl shadow-xl p-10 sm:p-12 transition-colors ${
+            theme === "dark"
+              ? "bg-zinc-700 border border-zinc-800"
+              : "bg-[#BAAE93] border border-gray-200"
+          }`}
+        >
           <h1 className="text-2xl sm:text-3xl font-bold mb-6">
             {editing ? "Edit Book" : "Add New Book"}
           </h1>
 
           <form className="space-y-5" onSubmit={handleSubmit}>
             <div className="space-y-1">
-              <label className={`text-sm ${theme === "dark" ? "text-gray-200" : "text-gray-700"}`}>Title</label>
+              <label
+                className={`text-sm ${
+                  theme === "dark" ? "text-gray-200" : "text-gray-700"
+                }`}
+              >
+                Title
+              </label>
               <input
                 name="title"
                 value={form.title}
                 onChange={handleChange}
                 required
                 className={`w-full rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-pink-500 transition-colors ${
-                  theme === "dark" 
-                    ? "bg-zinc-800 border border-zinc-700 text-white" 
+                  theme === "dark"
+                    ? "bg-zinc-800 border border-zinc-700 text-white"
                     : "bg-gray-50 border border-gray-300 text-black"
                 }`}
                 placeholder="Book title"
@@ -111,15 +135,21 @@ export default function AddEditBook() {
             </div>
 
             <div className="space-y-1">
-              <label className={`text-sm ${theme === "dark" ? "text-gray-200" : "text-gray-700"}`}>Author</label>
+              <label
+                className={`text-sm ${
+                  theme === "dark" ? "text-gray-200" : "text-gray-700"
+                }`}
+              >
+                Author
+              </label>
               <input
                 name="author"
                 value={form.author}
                 onChange={handleChange}
                 required
                 className={`w-full rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-pink-500 transition-colors ${
-                  theme === "dark" 
-                    ? "bg-zinc-800 border border-zinc-700 text-white" 
+                  theme === "dark"
+                    ? "bg-zinc-800 border border-zinc-700 text-white"
                     : "bg-gray-50 border border-gray-300 text-black"
                 }`}
                 placeholder="Author name"
@@ -127,14 +157,20 @@ export default function AddEditBook() {
             </div>
 
             <div className="space-y-1">
-              <label className={`text-sm ${theme === "dark" ? "text-gray-200" : "text-gray-700"}`}>Genre</label>
+              <label
+                className={`text-sm ${
+                  theme === "dark" ? "text-gray-200" : "text-gray-700"
+                }`}
+              >
+                Genre
+              </label>
               <input
                 name="genre"
                 value={form.genre}
                 onChange={handleChange}
                 className={`w-full rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-pink-500 transition-colors ${
-                  theme === "dark" 
-                    ? "bg-zinc-800 border border-zinc-700 text-white" 
+                  theme === "dark"
+                    ? "bg-zinc-800 border border-zinc-700 text-white"
                     : "bg-gray-50 border border-gray-300 text-black"
                 }`}
                 placeholder="Fantasy, Thriller, Sci-Fi..."
@@ -142,14 +178,20 @@ export default function AddEditBook() {
             </div>
 
             <div className="space-y-1">
-              <label className={`text-sm ${theme === "dark" ? "text-gray-200" : "text-gray-700"}`}>Description</label>
+              <label
+                className={`text-sm ${
+                  theme === "dark" ? "text-gray-200" : "text-gray-700"
+                }`}
+              >
+                Description
+              </label>
               <textarea
                 name="description"
                 value={form.description}
                 onChange={handleChange}
                 className={`w-full rounded-lg px-3 py-2 text-sm h-32 resize-none focus:outline-none focus:ring-2 focus:ring-pink-500 transition-colors ${
-                  theme === "dark" 
-                    ? "bg-zinc-800 border border-zinc-700 text-white" 
+                  theme === "dark"
+                    ? "bg-zinc-800 border border-zinc-700 text-white"
                     : "bg-gray-50 border border-gray-300 text-black"
                 }`}
                 placeholder="Brief summary of the book"
