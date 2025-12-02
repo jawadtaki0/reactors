@@ -23,17 +23,15 @@ Built with **React + Vite + TailwindCSS**, emphasizing speed, simplicity, and sm
 Reactors is a responsive book management web app where users can:
 
 - Browse a curated collection of books  
-- View detailed information about each book  
-- Add or edit books via a clean interface  
-- Maintain a personal reading list  
-- Track reading progress  
+- View detailed information for each book  
+- Add, edit, and delete books (if authorized)  
+- Maintain a personal reading list (e.g., “Want to Read”, “Reading”, “Finished”)  
+- Track reading progress and see a summary  
 - Manage profile details  
-- Log in or register
-
-This version uses **local mock data** and **React Context** to simulate backend behavior.
-
+- Register, log in, log out, and stay authenticated across sessions  
+- Optionally log in with Google
 ---
-
+In **Phase 2 (this version)**, all data comes from a **real backend API** via HTTP requests.
 # Primary Data Entities
 
 ### **Book**
@@ -58,46 +56,53 @@ Represents user information for login and profile pages.
 Simulates user's reading progress and book tracking.
 
 ---
+## Frontend Features
 
-# Features
+### 1. Authentication & Security
 
-### Book Browsing
-- View all books with covers, titles, and genres.
+- Email/password registration and login  
+- OTP verification flows:
+  - Register → verify account with OTP  
+  - Forgot password → verify reset OTP → set new password  
+- Persistent sessions using cookies (`withCredentials: true` in Axios)  
+- Logout from all protected pages  
+- Optional **Google OAuth** login (frontend uses a backend-provided URL)  
+- Protected routes using `ProtectedRoute.jsx` and `AuthContext.jsx`  
 
-### Book Details Page
-- Full description  
-- Metadata  
-- Buttons to edit or add to reading list  
+### 2. Book Management
 
-### Add Books
-- Simple form with validation  
-- Auto-updates the mock database  
+- View all books in a responsive grid (`BooksList.jsx`)  
+- View full details of a single book (`BookDetail.jsx`):
+  - title, author, year, genre, description, cover, etc.  
+- Add a new book (`AddEditBook.jsx` in “add” mode)  
+- Edit an existing book (`AddEditBook.jsx` in “edit” mode)  
+- Delete books (if authorized)  
+- “My Books” / “Mine” integration (via `/books/mine` backend route)
 
-### Edit Books
-- Modify any book's details  
-- Reflects updates immediately  
+All operations are done through the real API in `src/services/api.js`.
 
-### Reading List (Wishlist / Reading / Finished)
-- Track reading progress  
-- Quick visual overview  
+### 3. Reading List & User Library
 
-### Profile Page
-- User info  
-- Reading statistics  
+- Personalized reading list in `ReadingList.jsx` backed by `/userbooks` endpoints  
+- Support for different reading states (e.g., want-to-read, reading, finished)  
+- Summary view (`/userbooks/summary`) for statistics and quick insights  
+- Integration with `UserProfile.jsx` for user-centric information
 
-### Login & Register (Mock)
-- Client-side form validation  
-- Simulated authentication flow  
+### 4. UI / UX & Theming
 
-### Modern Home Page
-- Hero section  
-- Carousel  
-- Featured books  
+- **TailwindCSS** for modern, responsive styling  
+- Clean layout with **Navbar** and **Footer** components  
+- **Dark mode** support via `ThemeContext.jsx`  
+- Smooth UX with modals and feedback:
+  - `OtpModal.jsx` for OTP entry  
+  - `CookieFixPopup.jsx` to warn about blocked cookies (authentication relies on them)  
 
-### UI / UX
-- Tailwind for styling  
-- Framer Motion for animations  
-- Fully responsive  
+### 5. Utilities & Extras
+
+- `detectBrowser.js` and `checkCookies.js` to improve reliability when cookies are blocked  
+- `coverCache.js` and `fetchCover.js` for efficient cover image fetching and caching  
+- React Router-based navigation between pages (home, login, register, books, profile, etc.)
+
 
 ---
 
