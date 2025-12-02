@@ -1,5 +1,8 @@
 import axios from "axios";
 
+// enable axios globally
+axios.defaults.withCredentials = true;
+
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
 
 // shared axios instance
@@ -8,6 +11,7 @@ const api = axios.create({
   withCredentials: true,
 });
 
+// optional extra redundancy
 api.defaults.withCredentials = true;
 
 // auth endpoints
@@ -19,14 +23,8 @@ export const authApi = {
   getMe: () => api.get("/auth/me"),
   logout: () => api.post("/auth/logout"),
   getGoogleUrl: () => `${API_URL}/auth/google`,
-
-  // forgot password
   forgotPassword: (data) => api.post("/auth/forgot-password", data),
-
-  // verify reset OTP
   verifyResetOtp: (data) => api.post("/auth/verify-reset-otp", data),
-
-  // set new password
   resetPassword: (data) => api.post("/auth/reset-password", data),
 };
 
