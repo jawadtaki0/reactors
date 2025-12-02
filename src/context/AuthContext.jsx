@@ -96,11 +96,13 @@ export const AuthProvider = ({ children, onCookieBlocked }) => {
   const register = async (data) => {
     try {
       const res = await authApi.register(data);
+
       return {
-        success: true,
+        success: res.data.success ?? true,
         userId: res.data.userId,
         email: res.data.email,
-        mfa: true,
+        mfa: res.data.mfa,
+        message: res.data.message,
       };
     } catch (err) {
       return {
